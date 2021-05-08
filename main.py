@@ -1,5 +1,5 @@
 class Student:
-    student_list = []
+    student_list = {}
 
     def __init__(self, name, surname, gender):
         self.name = name
@@ -8,8 +8,7 @@ class Student:
         self.finished_courses = []
         self.courses_in_progress = []
         self.grades = {}
-        Student.student_list.append(self.name)
-        Student.student_list.append(self.surname)
+        Student.student_list[self.surname] = self.grades
 
     def add_courses(self, course_name):
         self.finished_courses.append(course_name)
@@ -59,9 +58,12 @@ class Mentor:
 
 
 class Lectors(Mentor):
+    lector_list = {}
+
     def __init__(self, name, surname):
         super().__init__(name, surname)
         self.grade_of_student = {}
+        Lectors.lector_list[self.surname] = self.grade_of_student
 
     def average_grade(self, grades):
         sum_hm = 0
@@ -104,7 +106,13 @@ class Reviewers(Mentor):
                 f'Фамилия: {self.surname}'
         return res_1
 
-
+def grades_of_course(name_list, name_course):
+    total_sum = 0
+    for name, grade in name_list.items():
+        for cour, grades in grade.items():
+            if name_course == cour:
+                total_sum += sum(grade[cour]) / len(grade[cour])
+        return round(total_sum / len(name_list), 2)
 
 best_student = Student('Ruoy', 'Eman', 'your_gender')
 best_student.courses_in_progress += ['Python']
@@ -120,14 +128,14 @@ cool_mentor = Reviewers('Some', 'Buddy')
 cool_mentor.courses_attached += ['Python']
 cool_mentor.courses_attached += ['Java']
 cool_mentor.courses_attached += ['Git']
-cool_mentor.rate_hw(best_student, 'Python', 10)
-cool_mentor.rate_hw(best_student, 'Python', 10)
-cool_mentor.rate_hw(best_student, 'Python', 10)
+cool_mentor.rate_hw(best_student, 'Python', 6)
+cool_mentor.rate_hw(best_student, 'Python', 9)
+cool_mentor.rate_hw(best_student, 'Python', 8)
 cool_mentor.rate_hw(best_student, 'Git', 10)
 cool_mentor.rate_hw(best_student, 'Git', 20)
 
+cool_mentor.rate_hw(next_student, 'Python', 10)
 cool_mentor.rate_hw(next_student, 'Python', 8)
-cool_mentor.rate_hw(next_student, 'Python', 9)
 cool_mentor.rate_hw(next_student, 'Python', 3)
 cool_mentor.rate_hw(next_student, 'Git', 5)
 cool_mentor.rate_hw(next_student, 'Git', 2)
@@ -158,3 +166,7 @@ print(best_student < next_student)
 print(main_mentor < next_mentor)
 print(Student.student_list)
 
+print(grades_of_course(Student.student_list, 'Python'))
+print(grades_of_course(Student.student_list, 'Git'))
+
+print(grades_of_course(Lectors.lector_list, 'Python'))
