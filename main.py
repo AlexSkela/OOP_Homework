@@ -1,4 +1,6 @@
 class Student:
+    student_list = []
+
     def __init__(self, name, surname, gender):
         self.name = name
         self.surname = surname
@@ -6,6 +8,8 @@ class Student:
         self.finished_courses = []
         self.courses_in_progress = []
         self.grades = {}
+        Student.student_list.append(self.name)
+        Student.student_list.append(self.surname)
 
     def add_courses(self, course_name):
         self.finished_courses.append(course_name)
@@ -101,6 +105,7 @@ class Reviewers(Mentor):
         return res_1
 
 
+
 best_student = Student('Ruoy', 'Eman', 'your_gender')
 best_student.courses_in_progress += ['Python']
 best_student.courses_in_progress += ['Git']
@@ -113,6 +118,7 @@ next_student.courses_in_progress += ['Java']
 
 cool_mentor = Reviewers('Some', 'Buddy')
 cool_mentor.courses_attached += ['Python']
+cool_mentor.courses_attached += ['Java']
 cool_mentor.courses_attached += ['Git']
 cool_mentor.rate_hw(best_student, 'Python', 10)
 cool_mentor.rate_hw(best_student, 'Python', 10)
@@ -150,5 +156,5 @@ print(next_student)
 print(best_student < next_student)
 
 print(main_mentor < next_mentor)
-
+print(Student.student_list)
 
